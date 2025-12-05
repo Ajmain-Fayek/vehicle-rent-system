@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import envConfig from "./config/env.config";
 import { checkDatabaseConnection } from "./config/pgDb.config";
 import authenticationRoutes from "./routes/authenticationRoutes";
+import { sendResponse } from "./utils/sendResponse";
 
 const app = express();
 
@@ -11,11 +12,11 @@ app.use(express.json());
 //        Test APIs         //
 //==========================//
 app.get("/", async (req: Request, res: Response) => {
-  res.send({ success: true, message: "Welcome to the Vehicle Rental System portal." });
+  return sendResponse(res, 200, true, "Welcome to the Vehicle Rental System portal");
 });
 
 app.get("/health-check", async (req: Request, res: Response) => {
-  res.send({ success: true, message: "Health Ok." });
+  return sendResponse(res, 200, true, "Health Ok.");
 });
 
 // ---------------------//
