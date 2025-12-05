@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import envConfig from "./config/env.config";
 import { checkDatabaseConnection } from "./config/pgDb.config";
+import authentication from "./routes/authentication";
 
 const app = express();
 
@@ -20,7 +21,7 @@ app.get("/health-check", async (req: Request, res: Response) => {
 // ---------------------//
 // Production APIs      //
 // ---------------------//
-app.use("/api/v1/auth");
+app.use("/api/v1/auth", authentication);
 
 // -----------------------------------------------------//
 // Start the server after DB connection is established  //
