@@ -18,9 +18,9 @@ app.get("/health-check", async (req: Request, res: Response) => {
 });
 
 // ---------------------//
-// Production API's     //
+// Production APIs      //
 // ---------------------//
-
+app.use("/api/v1/auth");
 
 // -----------------------------------------------------//
 // Start the server after DB connection is established  //
