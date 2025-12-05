@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { TApiResponse } from "../../types/apiResponse";
 import pool from "../../config/pgDb.config";
 import bcrypt from "bcrypt";
 import envConfig from "../../config/env.config";
@@ -7,10 +6,7 @@ import { sendResponse } from "../../utils/sendResponse";
 
 export const signupController = async (req: Request, res: Response): Promise<any> => {
   if (!req.validatedPayload) {
-    return res.status(400).json({
-      success: false,
-      message: "Payload missing",
-    } as TApiResponse);
+    return sendResponse(res, 400, false, "Payload missing");
   }
 
   const { name, email, password, phone, role } = req.validatedPayload!;
