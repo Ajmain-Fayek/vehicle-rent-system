@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { TApiResponse, TApiResponseWithPayload } from "../types/apiResponse";
+import { TApiResponse, TApiResponseWithPayload } from "../types/index";
 
 export const sendResponse = (res: Response, code: number, success: boolean, message: string, data?: any) => {
   if (!data) {

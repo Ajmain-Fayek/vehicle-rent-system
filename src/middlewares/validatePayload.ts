@@ -1,5 +1,5 @@
 import { Response, Request, NextFunction } from "express";
-import { TApiResponse } from "../types/apiResponse";
+import { TApiResponse } from "../types/index";
 
 export const validatePayload = (requiredFields: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
@@ -22,9 +22,3 @@ export const validatePayload = (requiredFields: string[]) => {
     next();
   };
 };
-
-declare module "express-serve-static-core" {
-  interface Request {
-    validatedPayload?: Record<string, string>;
-  }
-}

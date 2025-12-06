@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import envConfig from "../config/env.config";
-import { TUser } from "../types/types";
+import { TUser } from "../types/index";
 
 /**
  * Generate a JWT token for a user.
