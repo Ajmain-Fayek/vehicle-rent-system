@@ -6,7 +6,7 @@ import { sendResponse } from "../../utils/sendResponse";
 
 export const signupController = async (req: Request, res: Response): Promise<any> => {
   if (!req.validatedPayload) {
-    return sendResponse(res, 400, false, "Payload missing");
+    return sendResponse(res, 400, false, ["Error on signup", "Payload missing"]);
   }
 
   const { name, email, password, phone, role } = req.validatedPayload!;
@@ -15,7 +15,7 @@ export const signupController = async (req: Request, res: Response): Promise<any
     const existingUser = await pool.query("SELECT id FROM users WHERE email = $1", [email]);
 
     if (existingUser.rows.length !== 0) {
-      return sendResponse(res, 400, false, "User already exists.");
+      return sendResponse(res, 400, false, ["Error on signup", "User already exists"]);
     }
 
     const hashedPassword = await bcrypt.hash(password as string, envConfig.saltRounds);
@@ -27,6 +27,6 @@ export const signupController = async (req: Request, res: Response): Promise<any
 
     return sendResponse(res, 201, true, "User registered successfully", response.rows[0]);
   } catch (error: any) {
-    return sendResponse(res, 500, false, error.message);
+    return sendResponse(res, 500, false, ["Internal server error", error.message]);
   }
 };

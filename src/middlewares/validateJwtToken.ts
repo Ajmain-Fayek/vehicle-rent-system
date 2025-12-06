@@ -8,13 +8,13 @@ export const validateJwtToken = async (req: Request, res: Response, next: NextFu
   const tokenWihPrefix = req.headers["authorization"];
 
   if (!tokenWihPrefix) {
-    return sendResponse(res, 401, false, "Unauthorized! Missing token");
+    return sendResponse(res, 401, false, ["Unauthorized!", "Missing token"]);
   }
 
   const [prefix, token] = tokenWihPrefix.split(" ");
 
   if (prefix !== "Bearer" || !token?.trim()) {
-    return sendResponse(res, 401, false, "Unauthorized! Invalid token");
+    return sendResponse(res, 401, false, ["Unauthorized!", "Invalid token format"]);
   }
 
   try {
@@ -23,14 +23,15 @@ export const validateJwtToken = async (req: Request, res: Response, next: NextFu
     const user = await pool.query("SELECT email FROM users WHERE id = $1 LIMIT 1", [decode.id]);
 
     if (user.rows[0]?.email !== decode.email) {
-      return sendResponse(res, 401, false, "Unauthorized");
+      return sendResponse(res, 401, false, ["Unauthorized", "Token has been tempared"]);
     }
 
+    // inject role & userId into request header
     req.role = decode.role;
     req.userId = decode.id;
 
     next();
   } catch (error: any) {
-    return sendResponse(res, 401, false, `Unauthorized! ${error.message}`);
+    return sendResponse(res, 401, false, ["Internal server error", `${error.message}`]);
   }
 };

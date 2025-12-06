@@ -4,7 +4,7 @@ import pool from "../../config/pgDb.config";
 
 export const createVehiclesController = async (req: Request, res: Response): Promise<any> => {
   if (!req.validatedPayload) {
-    return sendResponse(res, 400, false, "Missing payload");
+    return sendResponse(res, 400, false, ["Error creating vehicles", "Missing payload"]);
   }
 
   try {
@@ -15,7 +15,7 @@ export const createVehiclesController = async (req: Request, res: Response): Pro
     ]);
 
     if (existingVehicle.rows.length !== 0) {
-      return sendResponse(res, 400, false, "Vehicle already exists");
+      return sendResponse(res, 400, false, ["Error creating vehicles", "Vehicle already exists"]);
     }
 
     const response = await pool.query(
@@ -25,6 +25,6 @@ export const createVehiclesController = async (req: Request, res: Response): Pro
 
     return sendResponse(res, 201, true, "Vehicle created successfully", response.rows[0]);
   } catch (error: any) {
-    return sendResponse(res, 500, false, error.message);
+    return sendResponse(res, 500, false, ["Internal server error", error.message]);
   }
 };

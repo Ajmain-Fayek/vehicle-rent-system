@@ -1,6 +1,7 @@
 export interface TApiResponse {
   success: boolean;
-  message: string;
+  message: string | [message: string, errors: string];
+  errors?: string;
 }
 
 export interface TApiResponseWithPayload<T> extends TApiResponse {

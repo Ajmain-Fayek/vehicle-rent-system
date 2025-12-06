@@ -1,15 +1,12 @@
 import { Response, Request, NextFunction } from "express";
-import { TApiResponse } from "../types/index";
+import { sendResponse } from "../utils/sendResponse";
 
 export const validatePayload = (requiredFields: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     for (const field of requiredFields) {
       const value = req.body?.[field];
       if (!value || !String(value).trim()) {
-        return res.status(400).json({
-          success: false,
-          message: `'${field}' is missing!`,
-        } as TApiResponse);
+        return sendResponse(res, 400, false, ["Missing Field", `'${field}' required!`]);
       }
     }
 
