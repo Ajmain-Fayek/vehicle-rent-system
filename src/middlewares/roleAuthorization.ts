@@ -5,7 +5,7 @@ import { sendResponse } from "../utils/sendResponse";
 export const roleAuthorization = (allowedRoles: Role[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     if (!req?.role) {
-      return sendResponse(res, 401, false, "Access forbiden");
+      return sendResponse(res, 403, false, "Access forbiden");
     }
 
     if (allowedRoles.includes(req.role as Role)) {
@@ -18,6 +18,6 @@ export const roleAuthorization = (allowedRoles: Role[]) => {
       return next();
     }
 
-    return sendResponse(res, 401, false, "Access forbiden");
+    return sendResponse(res, 403, false, "Access forbiden");
   };
 };
