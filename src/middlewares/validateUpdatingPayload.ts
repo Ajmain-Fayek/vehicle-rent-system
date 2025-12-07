@@ -14,7 +14,7 @@ export const validateUpdatingPayload = (requiredFields: string[]) => {
 
     for (const field of requiredFields) {
       const value = req.body?.[field];
-      if (!value || !String(value).trim()) {
+      if (value === undefined || value === null || !String(value).trim()) {
         continue;
       }
 
@@ -26,7 +26,7 @@ export const validateUpdatingPayload = (requiredFields: string[]) => {
       return sendResponse(res, 400, false, ["Error sanitizing update fields", "No update information are provided"]);
     }
 
-    req.sanitizedUpdatingPayload = requiredFields.reduce((acc, field) => {
+    req.sanitizedUpdatingPayload = sanitizedFields.reduce((acc, field) => {
       acc[field] = req.body[field];
 
       return acc;

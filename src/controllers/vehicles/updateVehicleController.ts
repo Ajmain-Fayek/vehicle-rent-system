@@ -19,7 +19,7 @@ export const updateVehiclesController = async (req: Request, res: Response): Pro
     }
 
     // Procced to update
-    const result = await updateRecordQuery("vehicles", req.sanitizedUpdatingPayload, ["id", id as string]);
+    const result = await updateRecordQuery("vehicles", req.sanitizedUpdatingPayload, ["id", id as string], "*");
 
     const response = await pool.query(result.query, result.values);
 

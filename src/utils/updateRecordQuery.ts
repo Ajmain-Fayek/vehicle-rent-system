@@ -1,18 +1,21 @@
+import { TableColumns } from "../types";
+
 /**
  * Create an update record query dynamically
+ *
  * @param tableName - database table name
  * @param data - Data object
  * @param condition - WHERE clause tuple [ field, value ]
+ * @param returning - "*" to get all | Array of fields
  * @returns object { query: string; values: string[] } - which can be used in pool.query()
  */
 
-import { Ttables } from "../types";
-
-export const updateRecordQuery = async (
-  tableName: Ttables,
-  data: Record<string, string>,
-  condition: [field: string, value: string]
-): Promise<{ query: string; values: string[] }> => {
+export const updateRecordQuery = async <T extends keyof TableColumns>(
+  tableName: T,
+  data: Record<TableColumns[T], string>,
+  condition: [field: TableColumns[T], value: string],
+  returning: "*" | TableColumns[T][]
+): Promise<{ query: string; values: any[] }> => {
   const setClause = [];
   const values = [];
   let index = 1;
@@ -30,7 +33,16 @@ export const updateRecordQuery = async (
 
   values.push(condition[1]);
 
-  const queryString = `UPDATE ${tableName.toLocaleLowerCase()} SET ${setString} WHERE ${whereClaus} RETURNING *`;
+  const returningClause =
+    returning === "*"
+      ? "RETURNING *"
+      : returning && returning.length === 1
+      ? `RETURNING ${returning[0]}`
+      : returning && returning.length > 1
+      ? `RETURNING ${returning.join(", ")}`
+      : "";
+
+  const queryString = `UPDATE ${tableName.toLocaleLowerCase()} SET ${setString} WHERE ${whereClaus} ${returningClause}`;
 
   return {
     query: String(queryString),
