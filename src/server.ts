@@ -5,6 +5,7 @@ import { checkDatabaseConnection } from "./config/pgDb.config";
 import authenticationRoutes from "./routes/authenticationRoutes";
 import vehiclesRoutes from "./routes/vehiclesRoutes";
 import usersRoutes from "./routes/usersRoutes";
+import bookingsRoutes from "./routes/bookingsRoutes";
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.get("/health-check", async (req: Request, res: Response) => {
 app.use("/api/v1/auth", authenticationRoutes);
 app.use("/api/v1/vehicles", vehiclesRoutes);
 app.use("/api/v1/users", usersRoutes);
+app.use("/api/v1/bookings", bookingsRoutes);
 
 // -----------------------------------------------------//
 // Start the server after DB connection is established  //
