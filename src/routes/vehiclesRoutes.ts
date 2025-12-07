@@ -4,10 +4,12 @@ import { validateJwtToken } from "../middlewares/validateJwtToken";
 import { roleAuthorization } from "../middlewares/roleAuthorization";
 import { createVehiclesController } from "../controllers/vehicles/createVehiclesController";
 import { getAllVehicles } from "../controllers/vehicles/getAllVehicles";
+import { getSpecificVehicles } from "../controllers/vehicles/getSpecificVehicle";
 
 const router = Router();
 
 router.get("/", getAllVehicles);
+router.get("/:vehicleId", getSpecificVehicles);
 router.post(
   "/",
   validatePayload(["vehicle_name", "type", "registration_number", "daily_rent_price", "availability_status"]),
