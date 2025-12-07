@@ -1,3 +1,12 @@
+declare module "express-serve-static-core" {
+  interface Request {
+    validatedPayload?: Record<string, string>;
+    role: string;
+    userId: number;
+    sanitizedUpdatingPayload: Record<string, string>;
+  }
+}
+
 export interface TApiResponse {
   success: boolean;
   message: string | [message: string, errors: string];
@@ -14,14 +23,6 @@ export interface TUser {
   email: string;
   phone: string;
   role: string;
-}
-
-declare module "express-serve-static-core" {
-  interface Request {
-    validatedPayload?: Record<string, string>;
-    role: string;
-    userId: number;
-  }
 }
 
 export type Role = "admin" | "customer";
