@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { sendResponse } from "../../utils/sendResponse";
 import pool from "../../config/pgDb.config";
 
-export const getAllVehicles = async (req: Request, res: Response): Promise<any> => {
+export const getAllVehiclesController = async (req: Request, res: Response): Promise<any> => {
   try {
     const response = await pool.query("SELECT * FROM vehicles");
 

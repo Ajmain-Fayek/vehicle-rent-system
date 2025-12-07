@@ -7,6 +7,9 @@ declare module "express-serve-static-core" {
   }
 }
 
+export type Ttables = "vehicles" | "users" | "bookings";
+export type TdeleteColumn = "vehicle_id" | "user_id";
+
 export interface TApiResponse {
   success: boolean;
   message: string | [message: string, errors: string];

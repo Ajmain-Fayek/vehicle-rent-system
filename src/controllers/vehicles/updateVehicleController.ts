@@ -3,7 +3,7 @@ import { sendResponse } from "../../utils/sendResponse";
 import pool from "../../config/pgDb.config";
 import { updateRecordQuery } from "../../utils/updateRecordQuery";
 
-export const updateVehicles = async (req: Request, res: Response): Promise<any> => {
+export const updateVehiclesController = async (req: Request, res: Response): Promise<any> => {
   try {
     const id = req.params?.vehicleId;
 
