@@ -62,7 +62,9 @@ export async function checkDatabaseConnection() {
       );
     }
 
-    console.log("Data Base connected successfully.");
+    console.log("\n" + "-".repeat(36));
+    console.log("| Data Base connected successfully |");
+    console.log("-".repeat(36) + "\n");
   } catch (error: any) {
     console.error(error.message);
   }
