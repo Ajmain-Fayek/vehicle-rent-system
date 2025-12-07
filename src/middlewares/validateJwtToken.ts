@@ -4,6 +4,14 @@ import jwt from "jsonwebtoken";
 import envConfig from "../config/env.config";
 import pool from "../config/pgDb.config";
 
+/**
+ * Middleware to validate the incomming jesonwebtoken
+ * @param req - request header
+ * @param res - response header
+ * @param next - next Function
+ * @returns - injects user id & role into request header as userId, role
+ */
+
 export const validateJwtToken = async (req: Request, res: Response, next: NextFunction) => {
   const tokenWihPrefix = req.headers["authorization"];
 
