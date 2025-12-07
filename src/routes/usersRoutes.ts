@@ -5,6 +5,7 @@ import { roleAuthorization } from "../middlewares/roleAuthorization";
 import { validateUpdatingPayload } from "../middlewares/validateUpdatingPayload";
 import { requiredSelfOrAdmin } from "../middlewares/requiredSelfOrAdmin";
 import { updateUserController } from "../controllers/users/updateUserController";
+import { deleteUserController } from "../controllers/users/deleteUserController";
 
 const router = Router();
 
@@ -16,5 +17,6 @@ router.put(
   validateUpdatingPayload(["name", "email", "phone", "role"]),
   updateUserController
 );
+router.delete("/:userId", validateJwtToken, roleAuthorization(["admin"]), deleteUserController);
 
 export default router;

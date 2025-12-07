@@ -8,7 +8,7 @@ declare module "express-serve-static-core" {
 }
 
 export type Ttables = "vehicles" | "users" | "bookings";
-export type TdeleteColumn = "vehicle_id" | "user_id";
+export type TdeleteColumn = "vehicle_id" | "customer_id";
 export type TableColumns = {
   users: "id" | "name" | "email" | "password" | "phone" | "role";
   vehicles: "id" | "vehicle_name" | "type" | "registration_number" | "daily_rent_price" | "availability_status";
