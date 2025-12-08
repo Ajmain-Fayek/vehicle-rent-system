@@ -6,6 +6,7 @@ import authenticationRoutes from "./routes/authenticationRoutes";
 import vehiclesRoutes from "./routes/vehiclesRoutes";
 import usersRoutes from "./routes/usersRoutes";
 import bookingsRoutes from "./routes/bookingsRoutes";
+import "./scripts/autoReturnLogic";
 
 const app = express();
 
