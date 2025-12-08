@@ -3,26 +3,29 @@ import { sendResponse } from "../utils/sendResponse";
 
 /**
  * middleware to validate incomming requst body payload
- * @param requiredFields Array of fields
+ * @param allowFields Array of fields
  * @returns injects sanitized data object into request header as sanitizedUpdatingPayload
  */
 
-export const validateUpdatingPayload = (requiredFields: string[]) => {
+export const validateUpdatingPayload = (allowFields: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    const sanitizedFields: string[] = [];
-    const sanitizedValues: string[] = [];
+    let sanitizedFields: string[] = [];
 
-    for (const field of requiredFields) {
+    for (const field of allowFields) {
+      if (req.role === "customer" && field === "role") {
+        continue;
+      }
+
       const value = req.body?.[field];
-      if (value === undefined || value === null || !String(value).trim()) {
+
+      if (value === undefined || value === null || String(value).trim() === "") {
         continue;
       }
 
       sanitizedFields.push(String(field));
-      sanitizedValues.push(String(value));
     }
 
-    if (sanitizedFields.length === 0 || sanitizedValues.length === 0) {
+    if (sanitizedFields.length === 0) {
       return sendResponse(res, 400, false, ["Error sanitizing update fields", "No update information are provided"]);
     }
 

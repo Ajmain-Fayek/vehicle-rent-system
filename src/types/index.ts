@@ -3,16 +3,42 @@ declare module "express-serve-static-core" {
     validatedPayload?: Record<string, string>;
     role: string;
     userId: number;
+    userEmail: string;
     sanitizedUpdatingPayload: Record<string, string>;
   }
 }
-
+export type Role = "admin" | "customer";
+export type TvehicleStatus = "available" | "booked";
+export type TbookingStatus = "active" | "cancelled" | "returned";
+export type TvehicleType = "car" | "bike" | "van" | "SUV";
 export type Ttables = "vehicles" | "users" | "bookings";
-export type TdeleteColumn = "vehicle_id" | "customer_id";
+export type TdeleteColumn = "vehicle_id" | "customer_id" | "booking_id";
 export type TableColumns = {
-  users: "id" | "name" | "email" | "password" | "phone" | "role";
-  vehicles: "id" | "vehicle_name" | "type" | "registration_number" | "daily_rent_price" | "availability_status";
-  bookings: "id" | "customer_id" | "vehicle_id" | "rent_start_date" | "rent_end_date" | "total_price" | "status";
+  users: {
+    id: number;
+    name: string;
+    email: string;
+    password: string;
+    phone: string;
+    role: Role;
+  };
+  vehicles: {
+    id: number;
+    vehicle_name: string;
+    type: TvehicleType;
+    registration_number: string;
+    daily_rent_price: number;
+    availability_status: TvehicleStatus;
+  };
+  bookings: {
+    id: number;
+    customer_id: number;
+    vehicle_id: number;
+    rent_start_date: string;
+    rent_end_date: string;
+    total_price: number;
+    status: TbookingStatus;
+  };
 };
 
 export interface TApiResponse {
@@ -32,8 +58,6 @@ export interface TUser {
   phone: string;
   role: string;
 }
-
-export type Role = "admin" | "customer";
 
 export interface RoleHierarchy {
   admin: Role[];

@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS Vehicles (
   type vehicle_type NOT NULL,
   registration_number TEXT UNIQUE NOT NULL,
   daily_rent_price DECIMAL(10, 2) NOT NULL,
-  availability_status availability_status NOT NULL,
+  availability_status availability_status DEFAULT 'available',
 
   CONSTRAINT positive CHECK( daily_rent_price > 0 )
 );
@@ -27,14 +27,14 @@ CREATE TYPE IF NOT EXISTS booking_status AS ENUM ('active', 'cancelled', 'return
 --  Booking status
 CREATE TABLE IF NOT EXISTS Bookings (
   id SERIAL PRIMARY KEY,
-  customer_id INT NOT NULL,
-  vehicle_id INT NOT NULL,
+  customer_id INT,
+  vehicle_id INT,
   rent_start_date DATE NOT NULL,
   rent_end_date DATE NOT NULL,
   total_price DECIMAL(10, 2) NOT NULL,
-  status booking_status NOT NULL,
+  status booking_status DEFAULT 'active',
 
   CONSTRAINT after_start CHECK(rent_end_date > rent_start_date),
-  CONSTRAINT fk_user FOREIGN KEY(customer_id) REFERENCES Users(id) ON DELETE CASCADE,  
-  CONSTRAINT fk_vehicle FOREIGN KEY(vehicle_id) REFERENCES Vehicles(id) ON DELETE CASCADE  
+  CONSTRAINT fk_user FOREIGN KEY(customer_id) REFERENCES Users(id) ON DELETE SET NULL,  
+  CONSTRAINT fk_vehicle FOREIGN KEY(vehicle_id) REFERENCES Vehicles(id) ON DELETE SET NULL  
 );

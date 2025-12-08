@@ -37,6 +37,7 @@ export const validateJwtToken = async (req: Request, res: Response, next: NextFu
     // inject role & userId into request header
     req.role = decode.role;
     req.userId = decode.id;
+    req.userEmail = decode.email;
 
     next();
   } catch (error: any) {

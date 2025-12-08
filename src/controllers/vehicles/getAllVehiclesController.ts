@@ -4,7 +4,7 @@ import pool from "../../config/pgDb.config";
 
 export const getAllVehiclesController = async (req: Request, res: Response): Promise<any> => {
   try {
-    const response = await pool.query("SELECT * FROM vehicles");
+    const response = await pool.query("SELECT * FROM vehicles ORDER BY id DESC");
 
     return sendResponse(res, 200, true, "Vehicles retrieved successfully", response.rows);
   } catch (error: any) {

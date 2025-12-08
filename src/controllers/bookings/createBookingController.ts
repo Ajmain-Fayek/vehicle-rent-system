@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { sendResponse } from "../../utils/sendResponse";
 import pool from "../../config/pgDb.config";
+import { checkActiveBooking } from "../../utils/checkActiveBooking";
+import { updateRecordQuery } from "../../utils/updateRecordQuery";
 
 export const createBookingController = async (req: Request, res: Response): Promise<any> => {
   if (!req.validatedPayload) {
@@ -16,7 +18,14 @@ export const createBookingController = async (req: Request, res: Response): Prom
     ]);
 
     if (vehicleExists.rowCount === 0) {
-      return sendResponse(res, 404, false, ["Error on fatching vehicle", "Vehicle not found"]);
+      return sendResponse(res, 404, false, ["Error on booking vehicle", "Vehicle not found"]);
+    }
+
+    // Check active booking
+    const hasActiveBooking = await checkActiveBooking(["vehicle_id", String(payload.vehicle_id)]);
+
+    if (hasActiveBooking) {
+      return sendResponse(res, 400, false, ["Error on booking vehicle", "vehicle already booked"]);
     }
 
     // Calculate price
@@ -36,6 +45,25 @@ export const createBookingController = async (req: Request, res: Response): Prom
       "INSERT INTO bookings ( customer_id, vehicle_id, rent_start_date, rent_end_date, total_price, status ) VALUES ( $1, $2, $3, $4, $5, $6 ) RETURNING * ",
       [payload.customer_id, payload.vehicle_id, payload.rent_start_date, payload.rent_end_date, totalPrice, "active"]
     );
+
+    if (response.rowCount === 0) {
+      return sendResponse(res, 500, false, ["Error on booking vehicle", "Can not create booking"]);
+    }
+
+    const vehicleUpdateQuery = await updateRecordQuery(
+      "vehicles",
+      {
+        availability_status: "booked",
+      },
+      ["id", response.rows[0].vehicle_id],
+      ["availability_status"]
+    );
+
+    const changeVehichleStatus = await pool.query(vehicleUpdateQuery.query, vehicleUpdateQuery.values);
+
+    if (changeVehichleStatus.rowCount === 0) {
+      return sendResponse(res, 500, false, ["Error on booking vehicle", "Can not set the vehicle availability status"]);
+    }
 
     const data = {
       ...response.rows[0],

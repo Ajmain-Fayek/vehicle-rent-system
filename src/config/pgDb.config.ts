@@ -43,7 +43,7 @@ export async function checkDatabaseConnection() {
       }
 
       await pool.query(
-        "CREATE TABLE vehicles ( id SERIAL PRIMARY KEY, vehicle_name VARCHAR(150) NOT NULL, type vehicle_type NOT NULL, registration_number TEXT UNIQUE NOT NULL, daily_rent_price DECIMAL(10, 2) NOT NULL, availability_status availability_status NOT NULL, CONSTRAINT positive CHECK( daily_rent_price > 0 ) );"
+        "CREATE TABLE vehicles ( id SERIAL PRIMARY KEY, vehicle_name VARCHAR(150) NOT NULL, type vehicle_type NOT NULL, registration_number TEXT UNIQUE NOT NULL, daily_rent_price DECIMAL(10, 2) NOT NULL, availability_status availability_status DEFAULT 'available', CONSTRAINT positive CHECK( daily_rent_price > 0 ) );"
       );
     }
 
@@ -58,7 +58,7 @@ export async function checkDatabaseConnection() {
       }
 
       await pool.query(
-        "CREATE TABLE bookings ( id SERIAL PRIMARY KEY, customer_id INT NOT NULL, vehicle_id INT NOT NULL, rent_start_date DATE NOT NULL, rent_end_date DATE NOT NULL, total_price DECIMAL(10, 2) NOT NULL, status booking_status NOT NULL, CONSTRAINT after_start CHECK(rent_end_date > rent_start_date), CONSTRAINT fk_user FOREIGN KEY(customer_id) REFERENCES Users(id) ON DELETE CASCADE, CONSTRAINT fk_vehicle FOREIGN KEY(vehicle_id) REFERENCES Vehicles(id) ON DELETE CASCADE );"
+        "CREATE TABLE bookings ( id SERIAL PRIMARY KEY, customer_id INT, vehicle_id INT, rent_start_date DATE NOT NULL, rent_end_date DATE NOT NULL, total_price DECIMAL(10, 2) NOT NULL, status booking_status DEFAULT 'active', CONSTRAINT after_start CHECK(rent_end_date > rent_start_date), CONSTRAINT fk_user FOREIGN KEY(customer_id) REFERENCES Users(id) ON DELETE SET NULL, CONSTRAINT fk_vehicle FOREIGN KEY(vehicle_id) REFERENCES Vehicles(id) ON DELETE SET NULL );"
       );
     }
 

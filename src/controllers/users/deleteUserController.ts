@@ -29,8 +29,6 @@ export const deleteUserController = async (req: Request, res: Response): Promise
     // Proceed to delete
     const result = await deleteRecordQuery("users", ["id", id]);
 
-    console.log(result);
-
     const response = await pool.query(result.query, result.values);
 
     if (response.rowCount === 0) {
