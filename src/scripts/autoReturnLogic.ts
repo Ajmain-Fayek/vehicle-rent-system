@@ -17,10 +17,10 @@ cron.schedule(
       );
 
       await client.query("COMMIT");
-      console.log(`[${new Date().toISOString()}] Auto-return job executed successfully`);
+      console.log(`[INFO] [${new Date().toISOString()}] Auto-return job executed successfully`);
     } catch (error: any) {
       await client.query("ROLLBACK");
-      console.error(`[${new Date().toISOString()}] Error on auto-return job:`, error.message);
+      console.error(`[ERROR] [${new Date().toISOString()}] Error on auto-return job:`, error.message);
     } finally {
       client.release();
     }

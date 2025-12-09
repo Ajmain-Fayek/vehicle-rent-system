@@ -4,8 +4,16 @@ import fs from "fs";
 
 dotenv.config({ path: path.join(process.cwd(), ".env") });
 
-const privateSecret = fs.readFileSync(path.join(process.cwd(), "private.key"), "utf8");
-const publicSecret = fs.readFileSync(path.join(process.cwd(), "public.key"), "utf8");
+const dir = path.join(process.cwd(), "keys");
+
+if (!fs.existsSync(path.join(dir, "private.key")) || !fs.existsSync(path.join(dir, "public.key"))) {
+  throw new Error(
+    `[ERROR] [${new Date().toISOString()}] RSA keys not found in ./keys directory. Generate them before starting the server.`
+  );
+}
+
+const privateSecret = fs.readFileSync(path.join(dir, "private.key"), "utf8");
+const publicSecret = fs.readFileSync(path.join(dir, "public.key"), "utf8");
 
 const envConfig = {
   env: String(process.env.NODE_ENV),

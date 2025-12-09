@@ -15,16 +15,17 @@ function generateKeys() {
     },
   });
 
+  const dir = path.join(process.cwd(), "keys");
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir);
+
   try {
-    fs.writeFileSync(path.join(process.cwd(), "private.key"), privateKey);
-    fs.writeFileSync(path.join(process.cwd(), "public.key"), publicKey);
+    fs.writeFileSync(path.join(dir, "private.key"), privateKey);
+    fs.writeFileSync(path.join(dir, "public.key"), publicKey);
   } catch (error: any) {
-    console.log(error.message);
+    console.error(`[ERROR] [${new Date().toISOString()}] Key generation failed:`, error);
   }
 
-  console.log("-".repeat(53));
-  console.log("\nRSA key pair generated: ./private.key & ./public.key\n");
-  console.log("-".repeat(53));
+  console.log(`\n[INFO] [${new Date().toISOString()}] RSA key pair generated: ./private.key & ./public.key\n`);
 }
 
 generateKeys();
