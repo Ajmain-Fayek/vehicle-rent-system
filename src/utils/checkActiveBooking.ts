@@ -5,7 +5,7 @@ import { TdeleteColumn } from "../types";
  * To check if the condition has active booking
  * @param condition where clause tuple [ "customer_id" | "vehicle_id" | "booking_id", 1 ]
  * @example ["vehicle_id", 1] , ["customer_id", 1], ["booking_id", 1]
- * @returns boolean
+ * @returns boolean | string
  */
 export const checkActiveBooking = async (
   condition: [field: TdeleteColumn, value: string]
