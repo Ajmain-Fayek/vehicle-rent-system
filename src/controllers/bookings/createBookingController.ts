@@ -3,6 +3,7 @@ import { sendResponse } from "../../utils/sendResponse";
 import pool from "../../config/pgDb.config";
 import { checkActiveBooking } from "../../utils/checkActiveBooking";
 import { updateRecordQuery } from "../../utils/updateRecordQuery";
+import { autoReturnTask } from "../../scripts/autoReturnLogic";
 
 export const createBookingController = async (req: Request, res: Response): Promise<any> => {
   if (!req.validatedPayload) {
@@ -79,6 +80,9 @@ export const createBookingController = async (req: Request, res: Response): Prom
         daily_rent_price: Number(rentPrice.rows[0].daily_rent_price),
       },
     };
+
+    // Auto return task or bookings & vehicle status
+    await autoReturnTask();
 
     return sendResponse(res, 201, true, "Booking created successfully", data);
   } catch (error: any) {

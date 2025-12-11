@@ -6,11 +6,18 @@ import authenticationRoutes from "./routes/authenticationRoutes";
 import vehiclesRoutes from "./routes/vehiclesRoutes";
 import usersRoutes from "./routes/usersRoutes";
 import bookingsRoutes from "./routes/bookingsRoutes";
-import "./scripts/autoReturnLogic";
+import cron from "node-cron";
+import { autoReturnTask } from "./scripts/autoReturnLogic";
 
 const app = express();
 
 app.use(express.json());
+
+// ---------------------------------------------------------- //
+//   Cron Task - autoReturn booking and available vehicle     //
+// ---------------------------------------------------------- //
+
+cron.schedule("0 0 * * *", autoReturnTask, { timezone: "Asia/Dhaka" });
 
 //==========================//
 //        Test APIs         //

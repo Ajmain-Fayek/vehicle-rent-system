@@ -5,11 +5,10 @@
   "main": "./src/server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node-dev --respawn --transpile-only ./src/server.ts",
+    "dev": "ts-node ./src/scripts/generateKeys.ts && ts-node-dev --respawn --transpile-only ./src/server.ts",
     "build": "tsc",
     "prestart": "node ./dist/scripts/generateKeys.js",
     "start": "node ./dist/server.js",
-    "generate-keys": "ts-node ./src/scripts/generateKeys.ts",
     "round-keys": "node ./dist/scripts/generateKeys.js"
   },
   "keywords": [],

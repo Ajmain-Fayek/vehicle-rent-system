@@ -25,7 +25,9 @@ function generateKeys() {
     console.error(`[ERROR] [${new Date().toISOString()}] Key generation failed:`, error);
   }
 
-  console.log(`\n[INFO] [${new Date().toISOString()}] RSA key pair generated: ./private.key & ./public.key\n`);
+  console.log(
+    `\n[INFO] [${new Date().toISOString()}] RSA key pair generated: ./keys/private.key & ./keys/public.key\n`
+  );
 }
 
 generateKeys();
