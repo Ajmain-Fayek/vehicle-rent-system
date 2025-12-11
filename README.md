@@ -61,7 +61,7 @@ A complete backend API for managing vehicles, booking, users, and role-based acc
 #### Clone the Repository
 
 ```bash
-git clone [https://github.com/Ajmain-Fayek/vehicle-rent-system.git](https://github.com/Ajmain-Fayek/vehicle-rent-system.git)
+git clone https://github.com/Ajmain-Fayek/vehicle-rent-system.git
 cd vehicle-rent-system
 ```
 
