@@ -69,13 +69,13 @@ cd vehicle-rent-system
 code .
 ```
 
-### Install Dependencies
+#### Install Dependencies
 
 ```bash
 npm install
 ```
 
-### Config .env
+#### Config .env
 
 ```.env
 NODE_ENV=development
@@ -84,19 +84,19 @@ DB_URL=<PostgreSQL-DB_URL>
 SALT_ROUNDS=10
 ```
 
-### Run the dev server
+#### Run the dev server
 
 ```bash
 npm run dev
 ```
 
-### Build the project for Production
+#### Build the project for Production
 
 ```bash
 npm run build
 ```
 
-### Start the production server
+#### Start the production server
 
 ```bash
 npm run start
