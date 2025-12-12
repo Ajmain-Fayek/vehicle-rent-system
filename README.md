@@ -53,6 +53,7 @@ A complete backend API for managing vehicles, booking, users, and role-based acc
 | Auth           | JWT                |
 | ORM / Querying | Pg (node-postgres) |
 | Deployment     | Vercel             |
+| Job Scheduler  | node-cron          |
 
 ---
 
@@ -62,7 +63,10 @@ A complete backend API for managing vehicles, booking, users, and role-based acc
 
 ```bash
 git clone https://github.com/Ajmain-Fayek/vehicle-rent-system.git
+
 cd vehicle-rent-system
+
+code .
 ```
 
 ### Install Dependencies
